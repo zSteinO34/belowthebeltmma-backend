@@ -11,7 +11,16 @@ class PostsController < ApplicationController
         render json: post
     end
 
+    def new
+    end
+
     def create
+        post = Post.create(post_params)
+        if post.valid?
+            render json: { post: PostSerializer.new(post)}, status: :created
+        else
+            render json: { error: 'failed to create post' }, status: :not_acceptable
+        end
     end
 
     def update
@@ -23,7 +32,7 @@ class PostsController < ApplicationController
     private
 
     def post_params
-        params.require(:post).permit(:title, :img, :content)
+        params.require(:post).permit(:title, :img, :content, :user_id)
     end
 
 end

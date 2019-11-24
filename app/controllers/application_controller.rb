@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
     before_action :authorized
 
       def encode_token(payload)
-        JWT.encode(payload, 'my_s3cr3t')
+        JWT.encode(payload, 'secret')
       end
      
       def auth_header
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
         if auth_header
           token = auth_header.split(' ')[1]
           begin
-            JWT.decode(token, 'my_s3cr3t', true, algorithm: 'HS256')
+            JWT.decode(token, 'secret', true, algorithm: 'HS256')
           rescue JWT::DecodeError
             nil
           end

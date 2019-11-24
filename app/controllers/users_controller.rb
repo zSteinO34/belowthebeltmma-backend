@@ -18,7 +18,9 @@ class UsersController < ApplicationController
         user = User.create(user_params)
         if user.valid?
             token = encode_token(user_id: user.id) 
-            render json: { user: UserSerializer.new(user), token: token}, status: :created
+            render json: { id: user.id, username: user.username, 
+                isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
+                posts: user.posts, likes: user.likes, comments: user.comments, liked_posts: user.liked_posts, token: token }
         else
             render json: { error: 'failed to create user' }, status: :not_acceptable
         end
@@ -33,6 +35,6 @@ class UsersController < ApplicationController
     private
 
     def user_params;
-        params.require(:user).permit(:username, :password, :email, :isAdmin, :bio)
+        params.require(:user).permit(:username, :password, :email, :isAdmin, :liked_posts, :bio)
     end
 end

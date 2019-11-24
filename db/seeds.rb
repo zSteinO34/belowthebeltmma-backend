@@ -9,9 +9,15 @@
 user1 = User.create(username: "test1", password: "123", email: "email.com", isAdmin: true, bio: "example bio")
 user2 = User.create(username: "popo", password: "1", email: "email.com", isAdmin: false, bio: "example bio for mr. popo")
 
-post1 = Post.create(title: "Post 1", img: "image url 1", content: "blah", user_id: 1);
-post2 = Post.create(title: "Post 2", img: "image url 2", content: "blah blah", user_id: 1);
-post3 = Post.create(title: "Post 3", img: "image url 3", content: "blah blah blah", user_id: 1);
+post1 = Post.create(title: "Post 1", img: "https://i0.wp.com/belowthebeltmma.com/wp-content/uploads/2019/02/Podcast-logo-e1549927316890.jpg?zoom=2&resize=880%2C660",
+    content: "Caerphilly chalk and cheese queso. Cheese on toast port-salut blue castello paneer danish fontina fromage melted cheese bocconcini. Parmesan fromage frais bocconcini cheesecake pecorino halloumi port-salut parmesan. Mascarpone cheddar dolcelatte melted cheese lancashire who moved my cheese melted cheese squirty cheese. When the cheese comes out everybody's happy cheesecake.", 
+    user_id: 1);
+post2 = Post.create(title: "Post 2", img: "https://i0.wp.com/belowthebeltmma.com/wp-content/uploads/2019/02/Podcast-logo-e1549927316890.jpg?zoom=2&resize=880%2C660", 
+    content: "blah blah", 
+    user_id: 1);
+post3 = Post.create(title: "Post 3", img: "https://i0.wp.com/belowthebeltmma.com/wp-content/uploads/2019/02/Podcast-logo-e1549927316890.jpg?zoom=2&resize=880%2C660", 
+    content: "blah blah blah", 
+    user_id: 1);
 
 like1 = Like.create(user_id: 2, post_id: 1);
 like2 = Like.create(user_id: 2, post_id: 2);
