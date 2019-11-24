@@ -10,7 +10,8 @@ class AuthController < ApplicationController
         if user && user.authenticate(params[:password])
           render json: { id: user.id, username: user.username, 
             isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
-            posts: user.posts, likes: user.likes, comments: user.comments, liked_posts: user.liked_posts, token: token }
+            posts: user.posts, likes: user.likes, comments: user.comments, 
+            liked_posts: user.liked_posts, token: token }
         else
           render json: { error: 'invalid credentials' }, status: 401
         end

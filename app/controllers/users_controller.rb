@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     def create
         user = User.create(user_params)
         if user.valid?
-            token = encode_token(user_id: user.id) 
+            token = encode_token(id: user.id) 
             render json: { id: user.id, username: user.username, 
                 isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
                 posts: user.posts, likes: user.likes, comments: user.comments, liked_posts: user.liked_posts, token: token }
