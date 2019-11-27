@@ -3,6 +3,7 @@ class AuthController < ApplicationController
     
     def create
         user = User.find_by(username: params[:username])
+        user.authenticate(params[:password]) == true
         payload = { id: user.id}
     
         token = JWT.encode payload, 'secret', 'HS256'
