@@ -14,13 +14,15 @@ class UsersController < ApplicationController
     def new
     end
 
-    def create
+    def create 
         user = User.create(user_params)
         if user.valid?
-            token = encode_token(id: user.id) 
-            render json: { id: user.id, username: user.username, 
+            token = encode_token(id: user.id)
+            avatar_url = rails_blob_path(user.avatar, disposition: "attachment", only_path: true)
+            render json: { id: user.id, username: user.username, avatar: avatar_url,
                 isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
-                posts: user.posts, likes: user.likes, comments: user.comments, liked_posts: user.liked_posts, token: token }
+                posts: user.posts, likes: user.likes, comments: user.comments, 
+                liked_posts: user.liked_posts, token: token }
         else
             render json: { error: 'failed to create user' }, status: :not_acceptable
         end
@@ -35,6 +37,6 @@ class UsersController < ApplicationController
     private
 
     def user_params;
-        params.require(:user).permit(:username, :password, :email, :isAdmin, :liked_posts, :bio)
+        params.require(:user).permit(:username, :password, :email, :isAdmin, :liked_posts, :bio, :avatar)
     end
 end

@@ -3,12 +3,21 @@ class PostsController < ApplicationController
 
     def index
         posts = Post.all
-        render json: posts
+        newPosts = posts.map do |post| 
+            header_img_url = rails_blob_path(post.header_img, disposition: "attachment", only_path: true)
+            {id: post.id, title: post.title, content: post.content, user_id: post.user_id, 
+            created_at: post.created_at, header_img: header_img_url, likes: post.likes, 
+            comments: post.comments, tags: post.tags, user: post.user}
+        end
+        render json: newPosts, status: :created
     end
 
     def show
         post = Post.find(params[:id])
-        render json: post
+        header_img_url = rails_blob_path(post.header_img, disposition: "attachment", only_path: true)
+        render json: {id: post.id, title: post.title, content: post.content, user_id: post.user_id, 
+            created_at: post.created_at, header_img: header_img_url, likes: post.likes, 
+            comments: post.comments, tags: post.tags, user: post.user}, status: :created
     end
 
     def new
@@ -17,7 +26,9 @@ class PostsController < ApplicationController
     def create
         post = Post.create(post_params)
         if post.valid?
-            render json: { post: PostSerializer.new(post)}, status: :created
+            header_img_url = rails_blob_path(post.header_img, disposition: "attachment", only_path: true)
+            render json: { id: post.id, title: post.title, content: post.content, user_id: post.user_id, 
+                created_at: post.created_at, header_img: header_img_url }, status: :created
         else
             render json: { error: 'failed to create post' }, status: :not_acceptable
         end
@@ -42,7 +53,7 @@ class PostsController < ApplicationController
     private
 
     def post_params
-        params.require(:post).permit(:title, :img, :content, :user_id)
+        params.require(:post).permit(:title, :content, :user_id, :header_img)
     end
 
 end
