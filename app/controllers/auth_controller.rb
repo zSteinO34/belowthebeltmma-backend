@@ -3,22 +3,17 @@ class AuthController < ApplicationController
     
     def create
         user = User.find_by(username: params[:username])
-        if user 
-          user.authenticate(params[:password]) == true
-          payload = { id: user.id}
-      
-          token = JWT.encode payload, 'secret', 'HS256'
-      
-          if user && user.authenticate(params[:password])
-            avatar_url = rails_blob_path(user.avatar, disposition: "attachment", only_path: true)
-            render json: { id: user.id, username: user.username, avatar: avatar_url,
-              isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
-              posts: user.posts, likes: user.likes, comments: user.comments, 
-              liked_posts: user.liked_posts, token: token }
-          else
-            render json: { error: 'invalid credentials' }, status: 401
-          end
-        else 
+        user.authenticate(params[:password]) == true
+        payload = { id: user.id}
+    
+        token = JWT.encode payload, 'secret', 'HS256'
+    
+        if user && user.authenticate(params[:password])
+          render json: { id: user.id, username: user.username, 
+            isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
+            posts: user.posts, likes: user.likes, comments: user.comments, 
+            liked_posts: user.liked_posts, token: token }
+        else
           render json: { error: 'invalid credentials' }, status: 401
         end
       end
@@ -34,11 +29,9 @@ class AuthController < ApplicationController
         end
     
         if user
-          avatar_url = rails_blob_path(user.avatar, disposition: "attachment", only_path: true)
-          render json: { id: user.id, username: user.username, avatar: avatar_url,
+          render json: { id: user.id, username: user.username, 
             isAdmin: user.isAdmin, email: user.email, bio: user.bio, 
-            posts: user.posts, likes: user.likes, comments: user.comments, 
-            liked_posts: user.liked_posts, token: token }
+            posts: user.posts, likes: user.likes, comments: user.comments, liked_posts: user.liked_posts, token: token }
         else
           render json: { error: 'invalid token' }, status: 401
         end
