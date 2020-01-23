@@ -1,5 +1,4 @@
 class Post < ApplicationRecord
-    has_one_attached :header_img
     belongs_to :user
     has_many :likes
     has_many :comments
@@ -9,5 +8,4 @@ class Post < ApplicationRecord
 
     validates :title, presence: true 
     validates :content, presence: true
-    # validates :header_img, presence: true
 end
